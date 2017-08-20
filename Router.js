@@ -11,7 +11,7 @@ const
 	METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'ALL'],
 
 	// Default Response
-	defaultResponse = () => {}
+	defaultResponse = [() => {}, {}]
 
 /**
  * Defaults an options object
@@ -39,13 +39,13 @@ function pathToReg(path, options) {
 		return path
 
 	assert(typeof path === 'string', 'Path must be a String or RegExp')
-
 	options = defaultOptions(options)
-	path = options.prefix + path
 
 	// Test Path & Prefix
-	assert(reg_url.test(path), 'Invalid Path')
-	assert(options.prefix === '' || reg_prefix.test(options.prefix), 'Invalid Prefix')
+	assert(reg_url.test(path) || path === '/', 'Invalid Path')
+	assert(reg_prefix.test(options.prefix) || options.prefix === '', 'Invalid Prefix')
+
+	path = options.prefix + path
 
 	let ret = '^'
 	for (const seg of path.split('/').slice(1))
@@ -138,13 +138,11 @@ function chooseFn(routes, path, method) {
 
 	// Choose the route
 	let route = null
-
 	if (candidates.size === 1)
 		route = candidates.entries().next().value[1]
 	else if (candidates.size > 1)
 		// TODO route chooser
 		route = candidates.entries().next().value[1]
-
 	if (route === null)
 		return defaultResponse
 
@@ -158,6 +156,7 @@ function chooseFn(routes, path, method) {
 	// Get the parameters
 	for (const key of fn.params.keys())
 		paramObj[key] = pathArr[fn.params.get(key)]
+
 
 	return [fn.fn, paramObj]
 }
