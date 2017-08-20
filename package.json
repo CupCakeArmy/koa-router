@@ -1,0 +1,22 @@
+{
+  "name": "cca-koa-router",
+  "version": "0.1.0",
+  "description": "Koa Router",
+  "main": "Router.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CupCakeArmy/koa-router.git"
+  },
+  "keywords": [
+    "Koa",
+    "Router",
+    "Middleware",
+    "Regexp"
+  ],
+  "author": "Niccolo Borgioli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CupCakeArmy/koa-router/issues"
+  },
+  "homepage": "https://github.com/CupCakeArmy/koa-router#readme"
+}
