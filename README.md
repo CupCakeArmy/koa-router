@@ -9,12 +9,12 @@ const
 
 const
 	app = new Koa(),
-	port = 3001
+	port = 3000
 
 app.use(router(_ => {
-	_.get('/user/:user/', (c, n) => {
-		c.body = c.request.param['user']
-		// GET /user/foo/ => 'foo'
+	_.get('/user/:user', (c, n) => {
+		c.body = c.request.params['user']
+		// GET /user/foo => 'foo'
 	})
 }))
 
@@ -56,7 +56,7 @@ app.listen(port)
 // 1
 app.use(router(_ => {
 	_.get('/mypath', (c, n) => {
-    	// GET /mypath
+		// GET /mypath
 		c.body = 'Some Response'
 	})
 }))
@@ -64,18 +64,18 @@ app.use(router(_ => {
 // 2
 app.use(router('/myprefix', _ => {
 	_.get('/mypath', (c, n) => {
-        // GET /myprefix/mypath
+		// GET /myprefix/mypath
 		c.body = 'Some Response'
 	})
 }))
 
 // 3
 app.use(router({
-  prefix: '/myprefix',
-  case: true
+	prefix: '/myprefix',
+	case: true
 }, _ => {
 	_.get('/myPath', (c, n) => {
-        // GET /myprefix/myPath
+		// GET /myprefix/myPath
 		c.body = 'Some Response'
 	})
 }))
