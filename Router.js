@@ -85,28 +85,30 @@ function pathToParams(path, options) {
  */
 function mkRouter(options, builder) {
 
-	let routes = new Map()
-	let routesKeys = new Map()
+	const
+		routes = new Map(),
+		routesKeys = new Map()
 
 	// This object (routesMaker) will process the builder function
 	let routesMaker = {
 		nest: function () {
 			// Join the lower paths with the current ones
-			routes = new Map([...routes, ...arguments[0](options.prefix)])
+			const nested = arguments[0](options.prefix)
+			for (const key of nested.keys())
+				routes.set(key, nested.get(key))
 		}
 	}
 
 	// Add the other methods to the routesMaker object
 	for (const method of METHODS)
 		routesMaker[method.toLowerCase()] = function () {
-			let
-				key = pathToReg(arguments[0], options),
-				data = {
-					fn: arguments[1],
-					params: pathToParams(arguments[0], options)
-				}
+			const data = {
+				fn: arguments[1],
+				params: pathToParams(arguments[0], options)
+			}
 
 			// If the same regex already exits, grab the object
+			let key = pathToReg(arguments[0], options)
 			if (routesKeys.has(key.source))
 				key = routesKeys.get(key.source)
 			else
@@ -183,7 +185,7 @@ module.exports = function (options, builder) {
 	// Build the routes
 	const routes = mkRouter(options, builder)
 
-	return async function (c, n) {
+	return function (c, n) {
 		// For building nested routes
 		if (typeof c === 'string') {
 			options.prefix = c + options.prefix
@@ -194,6 +196,6 @@ module.exports = function (options, builder) {
 		c.request.params = fn[1]
 		if (typeof fn[0] !== 'function')
 			fn[0] = defaultResponse[0]
-		await fn[0](c, n)
+		return fn[0](c, n)
 	}
 }
