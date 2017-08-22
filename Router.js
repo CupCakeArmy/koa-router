@@ -11,7 +11,9 @@ const
 	METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'ALL'],
 
 	// Default Response
-	defaultResponse = [() => {}, {}]
+	defaultResponse = [async(c, n) => {
+		await n()
+	}, {}]
 
 /**
  * Defaults an options object
@@ -181,7 +183,7 @@ module.exports = function (options, builder) {
 	// Build the routes
 	const routes = mkRouter(options, builder)
 
-	return function (c, n) {
+	return async function (c, n) {
 		// For building nested routes
 		if (typeof c === 'string') {
 			options.prefix = c + options.prefix
@@ -190,9 +192,8 @@ module.exports = function (options, builder) {
 
 		const fn = chooseFn(routes, c.request.url, c.request.method)
 		c.request.params = fn[1]
-		if (typeof fn[0] === 'function')
-			fn[0](c, n)
-		else
-			defaultResponse[0]()
+		if (typeof fn[0] !== 'function')
+			fn[0] = defaultResponse[0]
+		await fn[0](c, n)
 	}
 }
