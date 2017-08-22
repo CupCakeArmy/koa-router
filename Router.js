@@ -62,12 +62,15 @@ function pathToReg(path, options) {
  * Gets the position of each parameter type and returns a map with it
  * @param {*} path 
  */
-function pathToParams(path) {
-	let params = new Map()
+function pathToParams(path, options) {
+	const
+		offset = options.prefix.split('/').slice(1).length,
+		params = new Map()
+
 	let i = 0
 	for (const seg of path.split('/').slice(1)) {
 		if (seg[0] === ':')
-			params.set(seg.slice(1), i)
+			params.set(seg.slice(1), i + offset)
 			++i
 	}
 	return params
@@ -83,7 +86,7 @@ function mkRouter(options, builder) {
 	let routes = new Map()
 	let routesKeys = new Map()
 
-	// This object will process the builder function
+	// This object (routesMaker) will process the builder function
 	let routesMaker = {
 		nest: function () {
 			// Join the lower paths with the current ones
@@ -98,7 +101,7 @@ function mkRouter(options, builder) {
 				key = pathToReg(arguments[0], options),
 				data = {
 					fn: arguments[1],
-					params: pathToParams(arguments[0])
+					params: pathToParams(arguments[0], options)
 				}
 
 			// If the same regex already exits, grab the object
@@ -157,7 +160,6 @@ function chooseFn(routes, path, method) {
 	for (const key of fn.params.keys())
 		paramObj[key] = pathArr[fn.params.get(key)]
 
-
 	return [fn.fn, paramObj]
 }
 
@@ -188,6 +190,9 @@ module.exports = function (options, builder) {
 
 		const fn = chooseFn(routes, c.request.url, c.request.method)
 		c.request.params = fn[1]
-		fn[0](c, n)
+		if (typeof fn[0] === 'function')
+			fn[0](c, n)
+		else
+			defaultResponse[0]()
 	}
 }
