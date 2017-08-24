@@ -116,9 +116,9 @@ function mkRouter(options, builder) {
 
 			// Add the value into the object of GET, POST, etc.
 			const current = routes.get(key) || {}
-			let obj = {}
-			obj[method] = data
-			routes.set(key, Object.assign(current, obj))
+			routes.set(key, Object.assign(current, {
+				[method]: data
+			}))
 		}
 
 	// Build the routes, including the nested ones
@@ -147,9 +147,24 @@ function chooseFn(routes, path, method) {
 	let route = null
 	if (candidates.size === 1)
 		route = candidates.entries().next().value[1]
-	else if (candidates.size > 1)
-		// TODO route chooser
+	else if (candidates.size > 1) {
+		// If more than 1 route matches, choose the most logical fit
+
+		let testPath = ''
+		console.log(path)
+		for (let i = 0; i < path.length; ++i) {
+			if (candidates.size < 2)
+				// Only 1 route left
+				break
+
+			testPath += path[i]
+			for (const entry of candidates)
+				if (entry[0].test(testPath))
+					candidates.delete(entry[0])
+		}
+
 		route = candidates.entries().next().value[1]
+	}
 	if (route === null)
 		return defaultResponse
 
