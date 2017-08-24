@@ -1,5 +1,15 @@
 # Koa Router
+
+[![npm](https://img.shields.io/npm/v/cca-koa-router.svg)](https://www.npmjs.com/package/cca-koa-router)
+[![npm](https://img.shields.io/npm/dt/cca-koa-router.svg)]()
+[![npm](https://img.shields.io/npm/l/cca-koa-router.svg)]()
+
 Koa Router with support for recursive nesting and regexp and dynamic urls. No dependecies and lightweight code.
+
+### Install
+```bash
+npm install cca-koa-router --save
+```
 
 ### Simple Example
 ```javascript
