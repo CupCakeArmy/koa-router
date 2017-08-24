@@ -1,11 +1,14 @@
 {
   "name": "cca-koa-router",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Koa Router",
   "main": "Router.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CupCakeArmy/koa-router.git"
+  },
+  "scripts": {
+    "test": "mocha"
   },
   "keywords": [
     "Koa",
@@ -18,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/CupCakeArmy/koa-router/issues"
   },
-  "homepage": "https://github.com/CupCakeArmy/koa-router#readme"
+  "homepage": "https://github.com/CupCakeArmy/koa-router#readme",
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  }
 }
