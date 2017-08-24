@@ -151,7 +151,6 @@ function chooseFn(routes, path, method) {
 		// If more than 1 route matches, choose the most logical fit
 
 		let testPath = ''
-		console.log(path)
 		for (let i = 0; i < path.length; ++i) {
 			if (candidates.size < 2)
 				// Only 1 route left
