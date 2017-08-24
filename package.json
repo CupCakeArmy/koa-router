@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/CupCakeArmy/koa-router#readme",
   "devDependencies": {
+    "koa": "^2.3.0",
     "mocha": "^3.5.0"
   }
 }
