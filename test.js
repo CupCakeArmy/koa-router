@@ -2,7 +2,7 @@ const
 	assert = require('assert'),
 	http = require('http'),
 	Koa = require('koa'),
-	router = require('../Router'),
+	router = require('./Router'),
 	port = 3000
 
 let app, server, v = new Array(10)
