@@ -1,5 +1,7 @@
 # Koa Router
 
+[![Join the chat at https://gitter.im/cupcakearmy/koa-router](https://badges.gitter.im/cupcakearmy/koa-router.svg)](https://gitter.im/cupcakearmy/koa-router?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![npm](https://img.shields.io/npm/v/cca-koa-router.svg)](https://www.npmjs.com/package/cca-koa-router)
 [![npm](https://img.shields.io/npm/dt/cca-koa-router.svg)]()
 [![npm](https://img.shields.io/npm/l/cca-koa-router.svg)]()
